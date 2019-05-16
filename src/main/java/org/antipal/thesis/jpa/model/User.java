@@ -2,22 +2,26 @@ package org.antipal.thesis.jpa.model;
 
 import lombok.Data;
 
+import java.util.Collection;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 
 @Data
 
 @Entity
 @Table(name = "users")
-public class User{
+public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     @Size(max = 65)
     @Column(name = "first_name")
     private String firstName;
@@ -25,7 +29,13 @@ public class User{
     @Size(max = 65)
     @Column(name = "last_name")
     private String lastName;
-
+    
+    @NotNull
+    @Size(max = 30)
+    @Column(unique=true)
+	private
+    String username;
+    
     @NotNull
     @Email
     @Size(max = 100)
@@ -52,9 +62,10 @@ public class User{
     	
     }
     
-    public User(String firstName, String lastName, String email, String password) {
+    public User(String firstName, String lastName, String username, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.username = username;
         this.email = email;
         this.password = password;
     }
@@ -105,5 +116,45 @@ public class User{
 
 	public void setUserProfile(UserProfile userProfile) {
 		this.userProfile = userProfile;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

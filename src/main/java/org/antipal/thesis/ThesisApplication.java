@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+@ComponentScan
+@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class ThesisApplication implements CommandLineRunner{
 
 	@Autowired
@@ -21,6 +23,7 @@ public class ThesisApplication implements CommandLineRunner{
     private UserProfileRepository userProfileRepository;
 
 	public static void main(String[] args) {
+		
 		SpringApplication.run(ThesisApplication.class, args);
 	}
 	@Override
@@ -32,7 +35,7 @@ public class ThesisApplication implements CommandLineRunner{
         //=========================================
 
         // Create a User instance
-        User user = new User("Rajeev", "Singh", "rajeev@callicoder.com",
+        User user = new User("Rajeev", "Singh", "MoSalah", "rajeev@callicoder.com",
                 "MY_SUPER_SECRET_PASSWORD");
 
         Calendar dateOfBirth = Calendar.getInstance();
